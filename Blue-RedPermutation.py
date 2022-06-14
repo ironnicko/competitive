@@ -18,7 +18,4 @@ for _ in range(int(input())):
     for i in range(len(r)):
         if(r[i]>n-i):
             ok = False
-    if(ok):
-        print("YES")
-    else:
-        print("NO")
+    print("YES") if ok else print("NO")

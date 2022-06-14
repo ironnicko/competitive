@@ -431,12 +431,49 @@
 # array = [20, -7, -3, 9, -4, 6, -9, 10]
 # mss(array)
 
-def twoSum(array=[1, 5, 5, 6, 11, 3], sum=8):
-    main = set()
-    for i in array:
-        if sum-i in main:
-            print(i, sum-i)
-            break
-        else:
-            main.add(i)
-twoSum()
+# def twoSum(array=[1, 5, 5, 6, 11, 3], sum=8):
+#     main = set()
+#     for i in array:
+#         if sum-i in main:
+#             print(i, sum-i)
+#             break
+#         else:
+#             main.add(i)
+# twoSum()
+
+# n = int(input())
+# a = [int(i) for i in input().split()]
+# b = []
+# for i in a:
+#     flag = 1
+#     if i == 2:
+#         b.append(i)
+#         continue
+#     for j in range(2, i):
+#         if i %j == 0:
+#             flag = 0
+#             break
+#     if flag:
+#         b.append(i)
+
+
+# def canSum(i : int, memo: list):
+#     s = sum(memo)
+#     if not memo:
+#         return False
+#     elif s > i:
+#         memo.remove(max(memo))
+#         canSum(i, memo)
+#     elif s == i:
+#         return True
+#     elif s < i:
+#         memo.remove(min(memo))
+#         canSum(i, memo)
+# print(canSum(7, [5, 3, 4 , 7]))
+
+# def non(n):
+#     if n == 1:
+#         return 1
+#     else:
+#         return n + non(n-1)
+# print(non(50000))
