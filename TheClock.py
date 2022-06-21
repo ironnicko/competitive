@@ -1,4 +1,3 @@
-from collections import Counter
 import os,sys
 from io import BytesIO,IOBase
 BUFSIZ=8192
@@ -44,17 +43,19 @@ else:
     sys.stdin,sys.stdout=IOWrapper(sys.stdin),IOWrapper(sys.stdout)
 input=lambda:sys.stdin.readline().rstrip("\r\n")
 
+def check(h, m):
+    return h // 10 == m % 10 and h % 10 == m // 10
 
-for i in range(int(input())):
-    n = int(input())
-    L=list(map(int,input().split()))
-    L1=[L]
-    for i in range(10): # 10 because log 10^9 = 9
-        temp = Counter(L)
-        L=[temp[i] for i in L]
-        L1.append(L)
-    
-    for i in range(int(input())):
-        x,k=map(int,input().split())
-        k = min(k,10)
-        print(L1[k][x-1])
+for _ in range(int(input())):
+    s, x = input().split()
+    h, m = map(int, s.split(':'))
+    m = h * 60 + m
+    x = int(x)
+
+    p = set()
+    for i in range(10000):
+        if check(m // 60, m % 60):
+            p.add((m // 60, m % 60))
+        m = (m + x) % 1440
+
+    print(len(p))

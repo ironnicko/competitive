@@ -1,4 +1,4 @@
-from collections import Counter
+import enum
 import os,sys
 from io import BytesIO,IOBase
 BUFSIZ=8192
@@ -45,16 +45,13 @@ else:
 input=lambda:sys.stdin.readline().rstrip("\r\n")
 
 
-for i in range(int(input())):
+for _ in range(int(input())):
     n = int(input())
-    L=list(map(int,input().split()))
-    L1=[L]
-    for i in range(10): # 10 because log 10^9 = 9
-        temp = Counter(L)
-        L=[temp[i] for i in L]
-        L1.append(L)
-    
-    for i in range(int(input())):
-        x,k=map(int,input().split())
-        k = min(k,10)
-        print(L1[k][x-1])
+    a = [int(i) for i in input().split()]
+    s, flag, z = 0, 0, 0
+    for i in a:
+        s += i
+        if s <0: z=1;break
+        if not s: flag = 1
+        if flag and s > 0: z=1;break
+    print(("YES", "NO")[z or not flag])

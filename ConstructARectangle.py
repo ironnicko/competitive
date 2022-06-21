@@ -1,4 +1,3 @@
-from collections import Counter
 import os,sys
 from io import BytesIO,IOBase
 BUFSIZ=8192
@@ -44,17 +43,7 @@ else:
     sys.stdin,sys.stdout=IOWrapper(sys.stdin),IOWrapper(sys.stdout)
 input=lambda:sys.stdin.readline().rstrip("\r\n")
 
-
-for i in range(int(input())):
-    n = int(input())
-    L=list(map(int,input().split()))
-    L1=[L]
-    for i in range(10): # 10 because log 10^9 = 9
-        temp = Counter(L)
-        L=[temp[i] for i in L]
-        L1.append(L)
-    
-    for i in range(int(input())):
-        x,k=map(int,input().split())
-        k = min(k,10)
-        print(L1[k][x-1])
+n = int(input())
+for i in range(n):
+    x = sorted(list(map(int, input().split())))
+    print("YES" if (x[0] + x[1] == x[2] or (x[0] == x[1] and x[2] % 2 == 0) or (x[1] == x[2] and x[0] % 2 == 0)) else "NO")

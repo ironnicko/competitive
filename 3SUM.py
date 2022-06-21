@@ -1,4 +1,5 @@
-from collections import Counter
+from array import array
+import itertools
 import os,sys
 from io import BytesIO,IOBase
 BUFSIZ=8192
@@ -44,17 +45,55 @@ else:
     sys.stdin,sys.stdout=IOWrapper(sys.stdin),IOWrapper(sys.stdout)
 input=lambda:sys.stdin.readline().rstrip("\r\n")
 
+def ans2():
+    from collections import Counter
+    from itertools import combinations
 
-for i in range(int(input())):
-    n = int(input())
-    L=list(map(int,input().split()))
-    L1=[L]
-    for i in range(10): # 10 because log 10^9 = 9
-        temp = Counter(L)
-        L=[temp[i] for i in L]
-        L1.append(L)
-    
-    for i in range(int(input())):
-        x,k=map(int,input().split())
-        k = min(k,10)
-        print(L1[k][x-1])
+    int(input())
+    arr = Counter([i%10 for i in map(int, input().split())])
+    fun = []
+    for i, x in arr.items():
+        fun += [i] * min(3, x)
+    def ans():
+        for comb in combinations(fun, 3):
+            if sum(comb) % 10 == 3:
+                print("YES")
+                return
+        print("NO")
+    ans()
+
+# More efficient with lookup tables
+def ans1():
+    int(input())
+    a = []
+    look_up = {}
+    for i in input().split():
+        look_up[int(i[-1])] = look_up.get(int(i[-1]), 0)+1
+        if look_up[int(i[-1])] == 4:
+            look_up[int(i[-1])] -= 1
+        else:
+            a.append(int(i[-1]))
+    def ans():
+        n = len(a)
+        for i in range(n):
+            for j in range(i+1, n):
+                look_up[a[i]] -= 1
+                look_up[a[j]] -= 1
+                if a[i] + a[j] > 13:
+                    exp = 23 - a[i] - a[j]
+                elif a[i] + a[j] > 3:
+                    exp = 13 - a[i] - a[j]
+                else:
+                    exp = 3 - a[i] - a[j]
+                if look_up.get(exp, -1) > 0 :
+                    print("YES")
+                    return
+                look_up[a[i]] += 1
+                look_up[a[j]] += 1
+        print("NO")
+    ans()
+
+for _ in range(int(input())):
+    ans1()
+
+
