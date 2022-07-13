@@ -43,22 +43,29 @@ else:
     sys.stdin,sys.stdout=IOWrapper(sys.stdin),IOWrapper(sys.stdout)
 input=lambda:sys.stdin.readline().rstrip("\r\n")
 
-
 for _ in range(int(input())):
-    n = int(input())
-    r = []
-    for j in range(n):
-        a = [int(i) for i in input().split()]
-        ans = -1
-        for i in range(1,len(a)):
-            ans = max(ans,a[i]+2-i)
-        r.append((ans,a[0]))
-    r.sort()
-    ans = r[0][0]
-    cur = r[0][0]
-    for i in range(len(r)):
-        if(cur<r[i][0]):
-            ans += r[i][0] - cur 
-            cur = r[i][0]
-        cur += r[i][1]
-    print(ans)
+    minL = float("inf")
+    maxR = float("-inf")
+    maxLen = float("-inf")
+    costL = float("inf")
+    costR = float("inf")
+    costLen = float("inf")
+    for __ in range(int(input())):
+        l, r, c = map(int, input().split())
+        if l < minL:
+            minL = l; costL = float("inf")
+        if l == minL:
+            costL =min(costL, c)
+        if maxR < r:
+            maxR = r; costR = float("inf")
+        if maxR == r:
+            costR =min(costR, c)
+        if maxLen < r -l + 1:
+            maxLen = r - l + 1; costLen = float("inf")
+        if maxLen == r -l + 1:
+            costLen =min(costLen, c)
+        ans =costL + costR
+        if maxLen == maxR -minL + 1:
+            ans =min(ans, costLen)
+        print(ans)
+

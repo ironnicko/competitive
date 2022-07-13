@@ -1,4 +1,5 @@
 import os,sys
+from re import L
 from io import BytesIO,IOBase
 BUFSIZ=8192
 class FastIO(IOBase):
@@ -46,19 +47,32 @@ input=lambda:sys.stdin.readline().rstrip("\r\n")
 
 for _ in range(int(input())):
     n = int(input())
-    r = []
-    for j in range(n):
-        a = [int(i) for i in input().split()]
-        ans = -1
-        for i in range(1,len(a)):
-            ans = max(ans,a[i]+2-i)
-        r.append((ans,a[0]))
-    r.sort()
-    ans = r[0][0]
-    cur = r[0][0]
-    for i in range(len(r)):
-        if(cur<r[i][0]):
-            ans += r[i][0] - cur 
-            cur = r[i][0]
-        cur += r[i][1]
-    print(ans)
+    i = 0 
+    graph = {}
+    flag = 1
+    while i < n-1:
+        one, two = map(int, input().split())
+        graph[one] = graph.get(one, [])
+        graph[one].append((two, i))
+        graph[two] = graph.get(two, [])
+        graph[two].append((one, i))
+        if (len(graph[one]) > 2 or len(graph[two]) > 2) and flag:
+            print(-1)
+            flag = 0
+        i+=1
+    if flag:
+        ans = [0] * (n-1)
+        vis = [0] * (n+1)
+        cur, prev = 1, None
+        p = 0
+        while len(graph[cur]) != 1: cur += 1
+        while True:
+            vis[cur] = 1
+            for i, w in graph[cur]:
+                if not vis[i]:
+                    ans[w] = [3, 2][p%2]
+                    p+=1
+                    break
+            else:
+                break
+        print(*ans)

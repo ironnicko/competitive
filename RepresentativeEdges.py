@@ -43,22 +43,18 @@ else:
     sys.stdin,sys.stdout=IOWrapper(sys.stdin),IOWrapper(sys.stdout)
 input=lambda:sys.stdin.readline().rstrip("\r\n")
 
-
 for _ in range(int(input())):
-    n = int(input())
-    r = []
-    for j in range(n):
-        a = [int(i) for i in input().split()]
-        ans = -1
-        for i in range(1,len(a)):
-            ans = max(ans,a[i]+2-i)
-        r.append((ans,a[0]))
-    r.sort()
-    ans = r[0][0]
-    cur = r[0][0]
-    for i in range(len(r)):
-        if(cur<r[i][0]):
-            ans += r[i][0] - cur 
-            cur = r[i][0]
-        cur += r[i][1]
-    print(ans)
+  N = int(input())
+  A = [int(i) for i in input().split()]
+  if N==1:
+    print(0)
+    continue
+  ANS = N
+  for i in range(N):
+    for j in range(i+1,N):
+      C=0
+      for k in range(N):
+        if (A[k] - A[i]) * (j - i) != (A[j] - A[i]) * (k - i):
+          C += 1
+      ANS = min(ANS, C)
+  print(ANS)

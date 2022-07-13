@@ -1,3 +1,5 @@
+from collections import OrderedDict
+
 import os,sys
 from io import BytesIO,IOBase
 BUFSIZ=8192
@@ -44,21 +46,22 @@ else:
 input=lambda:sys.stdin.readline().rstrip("\r\n")
 
 
-for _ in range(int(input())):
-    n = int(input())
-    r = []
-    for j in range(n):
-        a = [int(i) for i in input().split()]
-        ans = -1
-        for i in range(1,len(a)):
-            ans = max(ans,a[i]+2-i)
-        r.append((ans,a[0]))
-    r.sort()
-    ans = r[0][0]
-    cur = r[0][0]
-    for i in range(len(r)):
-        if(cur<r[i][0]):
-            ans += r[i][0] - cur 
-            cur = r[i][0]
-        cur += r[i][1]
-    print(ans)
+n, k  = map(int, input().split())
+main = OrderedDict()
+pr = float('inf')
+a = [int(i) for i in input().split()]
+for i in range(n):
+    ans = main.get(a[i], -1)
+    if ans == -1:
+        main[a[i]] = i+1
+    else:
+        main.pop(a[i])
+        main[a[i]] = i+1
+    if len(main) == k:
+        first_elem = list(main.keys())[0]
+        form = i - main.get(first_elem) + 2
+        print(f"{main.get(first_elem)} {i+1}")
+        pr = 1
+        break
+if pr == float('inf'):
+    print('-1 -1')

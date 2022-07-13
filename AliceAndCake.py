@@ -2,11 +2,14 @@ from collections import Counter
 from sys import stdin
 input = stdin.readline
 
-for _ in range(int(input().rstrip())):
-    n = int(input().rstrip())
-    a = [int(i) for i in input().rstrip()]
-    count = Counter(a)
-    a = [sum(a)]
-    visited = set()
+def recurse(s):
+    if c.get(s, 0):
+        c[s]-=1
+        return 1
+    return s>1 and recurse( s//2 ) and recurse( s//2 + (s&1) )
 
-
+for _ in range(int(input())):
+    input()
+    a=list(map(int,input().split()))
+    c=Counter(a)
+    print(("NO", "YES")[recurse(sum(a))])

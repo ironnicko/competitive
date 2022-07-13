@@ -43,22 +43,22 @@ else:
     sys.stdin,sys.stdout=IOWrapper(sys.stdin),IOWrapper(sys.stdout)
 input=lambda:sys.stdin.readline().rstrip("\r\n")
 
+def expand(a, m):
+    b = []
+    for x in a:
+        t = x
+        while t % m == 0:
+            t //= m
+        if b and b[-1][0] == t: # space optimization
+            b[-1][1] += x // t
+        else:
+            b.append([t, x // t])
+    return b
+
 
 for _ in range(int(input())):
-    n = int(input())
-    r = []
-    for j in range(n):
-        a = [int(i) for i in input().split()]
-        ans = -1
-        for i in range(1,len(a)):
-            ans = max(ans,a[i]+2-i)
-        r.append((ans,a[0]))
-    r.sort()
-    ans = r[0][0]
-    cur = r[0][0]
-    for i in range(len(r)):
-        if(cur<r[i][0]):
-            ans += r[i][0] - cur 
-            cur = r[i][0]
-        cur += r[i][1]
-    print(ans)
+    _, m = map(int, input().split())
+    a = map(int, input().split())
+    input()
+    b = map(int, input().split())
+    print(("NO","YES")[expand(a, m) == expand(b, m)])

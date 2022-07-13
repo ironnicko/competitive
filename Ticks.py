@@ -43,22 +43,24 @@ else:
     sys.stdin,sys.stdout=IOWrapper(sys.stdin),IOWrapper(sys.stdout)
 input=lambda:sys.stdin.readline().rstrip("\r\n")
 
-
 for _ in range(int(input())):
-    n = int(input())
-    r = []
-    for j in range(n):
-        a = [int(i) for i in input().split()]
-        ans = -1
-        for i in range(1,len(a)):
-            ans = max(ans,a[i]+2-i)
-        r.append((ans,a[0]))
-    r.sort()
-    ans = r[0][0]
-    cur = r[0][0]
-    for i in range(len(r)):
-        if(cur<r[i][0]):
-            ans += r[i][0] - cur 
-            cur = r[i][0]
-        cur += r[i][1]
-    print(ans)
+    n, m, k = map(int, input().split())
+    arr = [[int(i == "*") for i in input()] for _ in range(n)]
+    for i in range(n-1, -1+k, -1):
+        for j in range(m):
+            if not arr[i][j]: continue
+            cont = 0
+            while j > cont and  i > cont and j+cont+1 < m :
+                if arr[i-cont-1][j-cont-1] == 0 or arr[i-cont-1][j+cont+1] == 0:
+                    break
+                cont += 1
+            if cont >= k:
+                for h in range(cont+1):
+                    arr[i-h][j-h] = 2
+                    arr[i-h][j+h] =2
+    def final():
+        for i in range(n):
+            if 1 in arr[i]:
+                return print("NO")
+        print("YES")
+    final()

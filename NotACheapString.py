@@ -1,5 +1,6 @@
 import os,sys
 from io import BytesIO,IOBase
+from typing import Counter
 BUFSIZ=8192
 class FastIO(IOBase):
     newlines=0
@@ -45,20 +46,30 @@ input=lambda:sys.stdin.readline().rstrip("\r\n")
 
 
 for _ in range(int(input())):
-    n = int(input())
-    r = []
-    for j in range(n):
-        a = [int(i) for i in input().split()]
-        ans = -1
-        for i in range(1,len(a)):
-            ans = max(ans,a[i]+2-i)
-        r.append((ans,a[0]))
-    r.sort()
-    ans = r[0][0]
-    cur = r[0][0]
-    for i in range(len(r)):
-        if(cur<r[i][0]):
-            ans += r[i][0] - cur 
-            cur = r[i][0]
-        cur += r[i][1]
-    print(ans)
+    N = 25
+    alphabets = [0 for _ in range(N+1)]
+    word = [i for i in input()]
+    price = int(input())
+    curr = 0
+
+    MOD = 100000007
+
+
+    for i in word:
+        alphabets[ (ord(i) - 97) % MOD ] += 1
+        curr += ((ord(i) - 97) % MOD) + 1
+    if curr <= price:
+        for i in word:
+            print(i, end="")
+    else:
+        for i in range(N, -1, -1):
+            while alphabets[i] and curr > price:
+                alphabets[i] -= 1
+                curr -= i+1
+        for i in word:
+            if alphabets[(ord(i) - 97) % MOD]:
+                print(i, end="")
+                alphabets[(ord(i) - 97) % MOD] -= 1
+    print()
+
+     

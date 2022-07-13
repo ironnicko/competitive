@@ -9,4 +9,4 @@ for _ in range(int(input())):
         if s[i] == c and (i-1)%2:
             flag = True
             break
-    print("YES") if flag else print("NO")
+    print(("YES", "NO")[flag == True])

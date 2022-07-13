@@ -45,20 +45,16 @@ input=lambda:sys.stdin.readline().rstrip("\r\n")
 
 
 for _ in range(int(input())):
-    n = int(input())
-    r = []
-    for j in range(n):
-        a = [int(i) for i in input().split()]
-        ans = -1
-        for i in range(1,len(a)):
-            ans = max(ans,a[i]+2-i)
-        r.append((ans,a[0]))
-    r.sort()
-    ans = r[0][0]
-    cur = r[0][0]
-    for i in range(len(r)):
-        if(cur<r[i][0]):
-            ans += r[i][0] - cur 
-            cur = r[i][0]
-        cur += r[i][1]
-    print(ans)
+    n, k = map(int, input().split())
+    a = list(range (n))
+    if n == 4 and k == 3:
+        print(-1)
+    else:
+        if n - 1 == k:
+            a[0], a[k-1] = a[k-1], a[0]
+            a[k-2], a[k-1] = a[k-1], a[k-2]
+        else:
+            a[k], a[0] = a[0], a[k]
+        for i in range(n//2):
+            print(a[i], a[n-1-i])
+            

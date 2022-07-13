@@ -43,22 +43,21 @@ else:
     sys.stdin,sys.stdout=IOWrapper(sys.stdin),IOWrapper(sys.stdout)
 input=lambda:sys.stdin.readline().rstrip("\r\n")
 
-
 for _ in range(int(input())):
-    n = int(input())
-    r = []
-    for j in range(n):
-        a = [int(i) for i in input().split()]
-        ans = -1
-        for i in range(1,len(a)):
-            ans = max(ans,a[i]+2-i)
-        r.append((ans,a[0]))
-    r.sort()
-    ans = r[0][0]
-    cur = r[0][0]
-    for i in range(len(r)):
-        if(cur<r[i][0]):
-            ans += r[i][0] - cur 
-            cur = r[i][0]
-        cur += r[i][1]
-    print(ans)
+    input()
+    n, k = map(int, input().split())
+    a = [int(i) for i in input().split()]
+    dict = {}
+    cnt = 0
+    for i in a:
+        dict[i] = dict.get(i, [cnt, cnt])
+        dict[i][1] = cnt
+        cnt += 1
+    while k:
+        a, b = map(int, input().split())
+        if dict.get(b, -1) == -1 or dict.get(a, -1) == -1:
+            cond = 0
+        else:
+            cond = int( dict[a][0] < dict[b][-1] )
+        print(("NO", "YES")[cond])
+        k-=1

@@ -3,12 +3,11 @@
 #include <set>
 #include <iostream>
 
+
+
 using namespace std;
 
 typedef long long ll;
-
-int main(){
-}
 
 // int main(){
 //     ios_base::sync_with_stdio(0);
@@ -149,3 +148,15 @@ int main(){
 // //    printf("%s", str);
 //     return 0;
 // }
+
+int main(){
+    int N ; cin>> N;
+    int primes[N+1];
+    for (int i =0; i < N+1; i++) primes[i] = 0;
+    for (int i=2; i< N+1; i++){
+        for (int j = i*i; j< N; j+=i){
+            primes[j] = 1;
+        }
+    }
+    cout << primes[N];
+}

@@ -477,3 +477,79 @@
 #     else:
 #         return n + non(n-1)
 # print(non(50000))
+
+# def recurse(day, last, dp, points):
+#     if day == 0:
+#         maxi = float("-inf")
+#         for i in range(3):
+#             if i != last:
+#                 maxi = max(points[day][i], maxi)
+#         return maxi
+#     if dp[day][last]: return dp[day][last]
+#     maxi = float("-inf")
+#     for i in range(3):
+#         if i != last:
+#             maxi = max(points[day][i] + recurse(day-1, i, dp, points), maxi)
+#     dp[day][last] = maxi
+#     return dp[day][last]
+
+# for _ in range(int(input())):
+#     n = int(input())
+#     points = [[int(i) for i in input().split()] for _ in range(n)]
+#     dp = [[0 for __ in range(4)] for _ in range(n)]
+#     print(recurse(n-1, 3, dp, points))
+
+
+# from collections import OrderedDict
+
+# class LRUCache:
+
+# 	def __init__(self, capacity: int):
+# 		self.cache = OrderedDict()
+# 		self.capacity = capacity
+
+# 	def get(self, key: int) -> int:
+# 		if key not in self.cache:
+# 			return -1
+# 		else:
+# 			self.cache.move_to_end(key)
+# 			return self.cache[key]
+
+# 	def put(self, key: int, value: int) -> None:
+# 		self.cache[key] = value
+# 		self.cache.move_to_end(key)
+# 		if len(self.cache) > self.capacity:
+# 			self.cache.popitem(last = False)
+
+
+# cache = LRUCache(2)
+
+
+# cache.put(1, 1)
+# print(cache.cache)
+# cache.put(2, 2)
+# print(cache.cache)
+# cache.get(1)
+# print(cache.cache)
+# cache.put(3, 3)
+# print(cache.cache)
+# cache.get(2)
+# print(cache.cache)
+# cache.put(4, 4)
+# print(cache.cache)
+# cache.get(1)
+# print(cache.cache)
+# cache.get(3)
+# print(cache.cache)
+# cache.get(4)
+# print(cache.cache)
+
+
+# Sieve of Eratsothenes
+
+n = int(input())
+primes = [0 for _ in range(n+1)]
+for i in range(2, n+1):
+    for j in range(i**2, n+1, i):
+        primes[j] = 1
+print(primes[25])
