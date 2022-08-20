@@ -43,18 +43,18 @@ else:
     sys.stdin,sys.stdout=IOWrapper(sys.stdin),IOWrapper(sys.stdout)
 input=lambda:sys.stdin.readline().rstrip("\r\n")
 
-
-for _ in range(int(input())):
-    n, k = map(int, input().split())
-    a = [int(i) for i in input().split()]
-    count = [0 for _ in range(31)]
-    for i in range(n):
-        for j in range(30, -1, -1):
-            count[j] += int(a[i] & (1 << j) != 0)
-    ans =0 
-    for i in range(30, -1, -1):
-        need = n-count[i]
-        if need <= k:
-            k -= need
-            ans += 1 << i
-    print(ans)
+n=int(input())
+a=[[]for i in range(n)]
+for i in range(n-1):
+    f,s=map(int,input().split())
+    a[s-1].append(f)
+    a[f-1].append(s)
+q=[1]
+fl=[1]+[0]*n
+while len(q)!=0:
+    x=q.pop()
+    for i in a[x-1]:
+        if fl[i-1]==0:
+            q.append(i)
+            fl[i-1]=-fl[x-1]
+print(fl.count(1)*(n-fl.count(1))-n+1)

@@ -552,4 +552,6 @@ primes = [0 for _ in range(n+1)]
 for i in range(2, n+1):
     for j in range(i**2, n+1, i):
         primes[j] = 1
-print(primes[25])
+for i in range(n):
+    if primes[i] == 0:
+        print(i)

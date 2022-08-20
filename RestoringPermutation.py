@@ -44,17 +44,38 @@ else:
 input=lambda:sys.stdin.readline().rstrip("\r\n")
 
 
+from bisect import bisect_left
+
 for _ in range(int(input())):
-    n, k = map(int, input().split())
+    n = int(input())
+
     a = [int(i) for i in input().split()]
-    count = [0 for _ in range(31)]
-    for i in range(n):
-        for j in range(30, -1, -1):
-            count[j] += int(a[i] & (1 << j) != 0)
-    ans =0 
-    for i in range(30, -1, -1):
-        need = n-count[i]
-        if need <= k:
-            k -= need
-            ans += 1 << i
-    print(ans)
+
+    vis=  set(i for i in range(1, n+1))
+
+    S = set(i for i in range(1, n+1))
+
+    minimal, maximal = list(a), list(a)
+
+    for i, x in enumerate(a):
+        if x in S:
+            S.remove(x)
+            vis.remove(x)
+        else:
+            minimal[i] = vis.pop()
+            maximal[i] = -1
+    i = 0
+    S = list(S)
+    curr = float('inf')
+    while i < n:
+        if maximal[i] == -1:
+            res = bisect_left(S, curr)
+            curr -= 1
+                
+            maximal[i] = S[res-1]
+        else:
+            curr = maximal[i]
+        vis.add(maximal[i])
+        i+=1
+    print(*minimal)
+    print(*maximal)

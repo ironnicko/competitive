@@ -43,18 +43,21 @@ else:
     sys.stdin,sys.stdout=IOWrapper(sys.stdin),IOWrapper(sys.stdout)
 input=lambda:sys.stdin.readline().rstrip("\r\n")
 
+n = int(input())
 
-for _ in range(int(input())):
-    n, k = map(int, input().split())
-    a = [int(i) for i in input().split()]
-    count = [0 for _ in range(31)]
-    for i in range(n):
-        for j in range(30, -1, -1):
-            count[j] += int(a[i] & (1 << j) != 0)
-    ans =0 
-    for i in range(30, -1, -1):
-        need = n-count[i]
-        if need <= k:
-            k -= need
-            ans += 1 << i
-    print(ans)
+a = [int(i) for i in input().split()]
+
+score_main = float("inf")
+
+for i in range(n):
+    score = 0
+    prev = 0
+    for j in range(i+1, n):
+        prev+=a[j]-prev%a[j]
+        score += prev // a[j]
+    prev = 0
+    for j in range(i-1, -1, -1):
+        prev += a[j] - prev % a[j]
+        score += prev // a[j]
+    score_main = min(score, score_main)
+print(score_main)

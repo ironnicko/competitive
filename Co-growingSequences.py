@@ -1,3 +1,4 @@
+from math import log2
 import os,sys
 from io import BytesIO,IOBase
 BUFSIZ=8192
@@ -45,16 +46,10 @@ input=lambda:sys.stdin.readline().rstrip("\r\n")
 
 
 for _ in range(int(input())):
-    n, k = map(int, input().split())
-    a = [int(i) for i in input().split()]
-    count = [0 for _ in range(31)]
-    for i in range(n):
-        for j in range(30, -1, -1):
-            count[j] += int(a[i] & (1 << j) != 0)
-    ans =0 
-    for i in range(30, -1, -1):
-        need = n-count[i]
-        if need <= k:
-            k -= need
-            ans += 1 << i
-    print(ans)
+    n = int(input())
+    x = [int(i) for i in input().split()]
+    y = [0 for _ in range(n)]
+
+    for i in range(1, n):
+        y[i] = (y[i-1] ^ x[i-1]) & (~x[i])
+    print(*y)

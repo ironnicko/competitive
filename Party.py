@@ -1,3 +1,4 @@
+from collections import Counter
 import os,sys
 from io import BytesIO,IOBase
 BUFSIZ=8192
@@ -45,16 +46,27 @@ input=lambda:sys.stdin.readline().rstrip("\r\n")
 
 
 for _ in range(int(input())):
-    n, k = map(int, input().split())
+    n = int(input())
+
+    n, m = map(int, input().split())
     a = [int(i) for i in input().split()]
-    count = [0 for _ in range(31)]
-    for i in range(n):
-        for j in range(30, -1, -1):
-            count[j] += int(a[i] & (1 << j) != 0)
-    ans =0 
-    for i in range(30, -1, -1):
-        need = n-count[i]
-        if need <= k:
-            k -= need
-            ans += 1 << i
-    print(ans)
+    c = Counter()
+    sets = []
+    for _ in range(m):
+        one = list(map(int, input().split()))
+        c[one[0]] += 1
+        c[one[1]] += 1
+        sets.append((one[0], one[1]))
+    if m & 1 == 0:
+        print(0)
+    else:
+        ans = float("inf")
+        for i in c:
+            if c[i] & 1:
+                ans  = min(ans, a[i-1])
+        for u, v in sets:
+            if a[u-1] + a[v-1] < ans:
+                cakes = m - c[u] - c[v] + 1
+                if cakes & 1 == 0:
+                    ans = a[u-1] + a[v-1]
+        print(ans)

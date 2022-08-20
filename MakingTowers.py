@@ -43,18 +43,21 @@ else:
     sys.stdin,sys.stdout=IOWrapper(sys.stdin),IOWrapper(sys.stdout)
 input=lambda:sys.stdin.readline().rstrip("\r\n")
 
-
 for _ in range(int(input())):
-    n, k = map(int, input().split())
+    n = int(input())
     a = [int(i) for i in input().split()]
-    count = [0 for _ in range(31)]
+
+    final = [0 for _ in range(n)]
+
+    hash = {}
+
     for i in range(n):
-        for j in range(30, -1, -1):
-            count[j] += int(a[i] & (1 << j) != 0)
-    ans =0 
-    for i in range(30, -1, -1):
-        need = n-count[i]
-        if need <= k:
-            k -= need
-            ans += 1 << i
-    print(ans)
+        idx = a[i] -1
+        hash[idx] = hash.get(idx, [-1])
+        final[idx] = max(1, final[idx])
+        if hash[idx][-1] != -1:
+            if (i - hash[idx][-1] + 1) & 1 == 0:
+                final[idx]+=1
+        hash[idx].append(i)
+    print(*final)
+

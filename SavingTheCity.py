@@ -45,16 +45,23 @@ input=lambda:sys.stdin.readline().rstrip("\r\n")
 
 
 for _ in range(int(input())):
-    n, k = map(int, input().split())
-    a = [int(i) for i in input().split()]
-    count = [0 for _ in range(31)]
-    for i in range(n):
-        for j in range(30, -1, -1):
-            count[j] += int(a[i] & (1 << j) != 0)
-    ans =0 
-    for i in range(30, -1, -1):
-        need = n-count[i]
-        if need <= k:
-            k -= need
-            ans += 1 << i
-    print(ans)
+    a, b = map(int, input().split())
+
+    s = input()
+    n = len(s)
+    first = s.find('1')
+    last = s.rfind('1')
+
+    if first == last and last == -1:
+        print(0)
+    else:
+        i = first
+        ans = a
+        while i < last:
+            c = 0
+            while s[i] == '0':
+                c += 1
+                i+=1
+            ans += min(a, b*c)
+            i+=1
+        print(ans)

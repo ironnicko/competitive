@@ -44,17 +44,24 @@ else:
 input=lambda:sys.stdin.readline().rstrip("\r\n")
 
 
+def final(f, n, m):
+    if f: return print("-1")
+    ans = []
+    for j in range(m-1, -1, -1):
+        for i in range(n-1, -1, -1):
+            if a[i][j] == '1':
+                if i != 0:
+                    ans.append((i, j + 1, i + 1, j + 1))
+                else:
+                    ans.append((i+1, j, i+1, j+1))
+    print(len(ans))
+    for i in ans:
+        print(*i)
+
+
 for _ in range(int(input())):
-    n, k = map(int, input().split())
-    a = [int(i) for i in input().split()]
-    count = [0 for _ in range(31)]
-    for i in range(n):
-        for j in range(30, -1, -1):
-            count[j] += int(a[i] & (1 << j) != 0)
-    ans =0 
-    for i in range(30, -1, -1):
-        need = n-count[i]
-        if need <= k:
-            k -= need
-            ans += 1 << i
-    print(ans)
+    n, m= map(int, input().split())
+
+    a = [list(input()) for _ in range(n)]
+
+    final(a[0][0] == '1', n, m)
