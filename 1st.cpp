@@ -160,3 +160,21 @@ typedef long long ll;
 //     }
 //     cout << primes[N];
 // }
+
+class something{
+    public:
+        int a;
+    something(){
+        cin >> a;
+    }
+    void operator >(something b){
+        if (b.a < a) cout << "A is bigger";
+        else cout << "A is smaller";
+    }
+};
+
+int main(){
+    something A, B;
+    A > B;
+
+}

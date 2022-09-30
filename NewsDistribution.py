@@ -42,23 +42,47 @@ if sys.version_info[0]<3:
 else:
     sys.stdin,sys.stdout=IOWrapper(sys.stdin),IOWrapper(sys.stdout)
 input=lambda:sys.stdin.readline().rstrip("\r\n")
-from bisect import bisect_left
 
+class DSU:
+    def __init__(self, n):
+        self.parent = [i for i in range(n + 1)]
+        self.size = [1] * (n + 1)
+ 
+    # this is where the amortized time complexity is observed
 
-
-n = int(input())
-a = sorted([int(i) for i in input().split()])
-m = int(input())
-S = sum(a)
-
-while m:
-    x,y = map(int, input().split())
-    score = float("inf")
-    idx = bisect_left(a, x)
-
-    if idx > 0:
-        score = min(score, (x - a[idx - 1]) + max(0, y - S + a[idx - 1]))
-    if idx < n:
-        score = min(score, max(0, y - S + a[idx]))
-    print(score)
-    m-=1
+    def find(self, a):
+        temp = []
+        while a != self.parent[a]:
+            temp.append(a)
+            a = self.parent[a]
+        for i in temp:
+            self.parent[i] = a
+        return self.parent[a]
+ 
+    def union(self, a, b):
+        aa = self.find(a)
+        bb = self.find(b)
+        if aa == bb:
+            return
+        if self.size[aa] >= self.size[bb]:
+            self.parent[bb] = aa
+            self.size[aa] += self.size[bb]
+            self.size[bb] = 1
+        else:
+            self.parent[aa] = bb
+            self.size[bb] += self.size[aa]
+            self.size[aa] = 1
+ 
+ 
+n, m = map(int, input().split())
+dsu = DSU(n)
+for x in range(m):
+    count, *numbers = map(int, input().split())
+    if count > 1:
+        temp = numbers[0]
+        for y in numbers:
+            dsu.union(temp, y)
+ans = []
+for z in range(1, n + 1):
+    ans.append(dsu.size[dsu.find(z)])
+print(*ans)

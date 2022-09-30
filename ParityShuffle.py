@@ -42,23 +42,33 @@ if sys.version_info[0]<3:
 else:
     sys.stdin,sys.stdout=IOWrapper(sys.stdin),IOWrapper(sys.stdout)
 input=lambda:sys.stdin.readline().rstrip("\r\n")
-from bisect import bisect_left
 
+for _ in range(int(input())):
+    n = int(input())
+    a = [int(i) for i in input().split()]
 
+    if n == 1:
+        print(0)
+        continue
+    final = [(1, n)]
 
-n = int(input())
-a = sorted([int(i) for i in input().split()])
-m = int(input())
-S = sum(a)
+    if (a[0] + a[n-1]) & 1:
+        a[n-1] = a[0]
+    else:
+        a[0] =a[n-1]
+    par = a[0]&1
 
-while m:
-    x,y = map(int, input().split())
-    score = float("inf")
-    idx = bisect_left(a, x)
-
-    if idx > 0:
-        score = min(score, (x - a[idx - 1]) + max(0, y - S + a[idx - 1]))
-    if idx < n:
-        score = min(score, max(0, y - S + a[idx]))
-    print(score)
-    m-=1
+    for i in range(1, n-1):
+        if par:
+            if a[i]&1:
+                final.append((i+1, n))
+            else:
+                final.append((1, i+1))
+        else:
+            if a[i] & 1:
+                final.append((1, i+1))
+            else:
+                final.append((i+1, n))
+    print(len(final))
+    for i in final:
+        print(*i)

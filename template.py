@@ -49,38 +49,50 @@ class Graph:
 		self.edges = defaultdict(list)
 	def add_edge(self, u, v):
 		self.edges[u].append(v)
-class Subset:
-	def __init__(self, parent, rank):
-		self.parent = parent
-		self.rank = rank
-def find(subsets, node):
-	if subsets[node].parent != node:
-		subsets[node].parent = find(subsets, subsets[node].parent)
-	return subsets[node].parent
-def union(subsets, u, v):
-	if subsets[u].rank > subsets[v].rank:
-		subsets[v].parent = u
-	elif subsets[v].rank > subsets[u].rank:
-		subsets[u].parent = v
-	else:
-		subsets[v].parent = u
-		subsets[u].rank += 1
-def isCycle(graph):
-	subsets = []
+class DSU:
+    def __init__(self, n):
+        self.parent = [i for i in range(n + 1)]
+        self.size = [1] * (n + 1)
+ 
+    def find(self, a):
+        temp = []
+        # print(a, self.parent[a])
+        while a != self.parent[a]:
+            temp.append(a)
+            a = self.parent[a]
+        for i in range(len(temp)):
+            self.parent[temp[i]] = a
+        return self.parent[a]
+ 
+    def union(self, a, b):
+        aa = self.find(a)
+        bb = self.find(b)
+        if aa == bb:
+            return
+        if self.size[aa] >= self.size[bb]:
+            self.parent[bb] = aa
+            self.size[aa] += self.size[bb]
+            self.size[bb] = 1
+        else:
+            self.parent[aa] = bb
+            self.size[bb] += self.size[aa]
+            self.size[aa] = 1
+# def isCycle(graph):
+# 	subsets = []
 
-	for u in range(graph.num_of_v):
-		subsets.append(Subset(u, 0))
+# 	for u in range(graph.num_of_v):
+# 		subsets.append(subset(u, 0))
 
-	for u in graph.edges:
-		u_rep = find(subsets, u)
+# 	for u in graph.edges:
+# 		u_rep = find(subsets, u)
 
-		for v in graph.edges[u]:
-			v_rep = find(subsets, v)
+# 		for v in graph.edges[u]:
+# 			v_rep = find(subsets, v)
 
-			if u_rep == v_rep:
-				return True
-			else:
-				union(subsets, u_rep, v_rep)
+# 			if u_rep == v_rep:
+# 				return True
+# 			else:
+# 				union(subsets, u_rep, v_rep)
 
 class BIT:
     def __init__(self, n):

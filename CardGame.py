@@ -1,3 +1,4 @@
+from math import comb
 import os,sys
 from io import BytesIO,IOBase
 BUFSIZ=8192
@@ -42,23 +43,30 @@ if sys.version_info[0]<3:
 else:
     sys.stdin,sys.stdout=IOWrapper(sys.stdin),IOWrapper(sys.stdout)
 input=lambda:sys.stdin.readline().rstrip("\r\n")
-from bisect import bisect_left
 
+arr = []
+for _ in range(int(input())):
+    n = int(input())
+    arr.append(n)
 
+MOD = 998244355
 
-n = int(input())
-a = sorted([int(i) for i in input().split()])
-m = int(input())
-S = sum(a)
+def solve():
+    DP = [0] * (35)
+    dp = [0] * (35)
+    for k in range(1, 31):
+        P = 1
+        n = k * 2
+        for i in range(n//2):
+            P *= (n-i)
+            P //= i+1
+        DP[k] = 1
+        for i in range(n//2):
+            DP[k] = DP[k] * (n - 1 - i)
+            DP[k] = DP[k] // (i+1)
+        DP[k] = (DP[k] + dp[k-1]) % (MOD-2)
+        dp[k] = (P - DP[k]-1) % (MOD-2) # current combination - the wins of A - 1 gives us the answer for the given N
 
-while m:
-    x,y = map(int, input().split())
-    score = float("inf")
-    idx = bisect_left(a, x)
-
-    if idx > 0:
-        score = min(score, (x - a[idx - 1]) + max(0, y - S + a[idx - 1]))
-    if idx < n:
-        score = min(score, max(0, y - S + a[idx]))
-    print(score)
-    m-=1
+    for idx in arr:
+        print(DP[idx//2], dp[idx//2], 1)
+solve()

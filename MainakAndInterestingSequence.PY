@@ -42,23 +42,27 @@ if sys.version_info[0]<3:
 else:
     sys.stdin,sys.stdout=IOWrapper(sys.stdin),IOWrapper(sys.stdout)
 input=lambda:sys.stdin.readline().rstrip("\r\n")
-from bisect import bisect_left
 
+def solve(size_of_supposed, sum_of_arr):
+    if size_of_supposed > sum_of_arr or ((size_of_supposed&1)==0 and sum_of_arr&1==1):
+        return print("No")
+    print("Yes")
+    if size_of_supposed == sum_of_arr:
+        for _ in range(size_of_supposed):
+            print(1, end=" ")
+        print()
+    elif size_of_supposed % 2 == 1:
+        for _ in range(1, size_of_supposed):
+            print(1, end=" ")
+        print(sum_of_arr-size_of_supposed+1)
+    else:
+        for _ in range(2, size_of_supposed):
+            print(1, end=" ")
+        print((sum_of_arr-size_of_supposed+2)//2, (sum_of_arr-size_of_supposed+2)//2)
 
+for _ in range(int(input())):
 
-n = int(input())
-a = sorted([int(i) for i in input().split()])
-m = int(input())
-S = sum(a)
+    size_of_supposed, sum_of_arr = map(int, input().split())
+    size_of_supposed %= 1000000
 
-while m:
-    x,y = map(int, input().split())
-    score = float("inf")
-    idx = bisect_left(a, x)
-
-    if idx > 0:
-        score = min(score, (x - a[idx - 1]) + max(0, y - S + a[idx - 1]))
-    if idx < n:
-        score = min(score, max(0, y - S + a[idx]))
-    print(score)
-    m-=1
+    solve(size_of_supposed, sum_of_arr)
