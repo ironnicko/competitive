@@ -1,31 +1,22 @@
-for _ in range(int(input())):
-    n = int(input())
-    s=  input()
-    z = s.count('0')
-    o = s.count('1')
+from collections import defaultdict
 
-    if z == 0:
-        print(n, 0)
-        continue
-    if o == 0:
-        print(n, 0)
-        continue
-    print(1, abs(z-o)+1)
-    q = 0
-    for i in range(abs(z-o)):
 
-        t = ""
-        for j in range(len(s)-1):
+def lcs(s, t) :
+    n = len(s)
+    m = len(t)
+    dp = defaultdict(lambda : defaultdict(int))
 
-            if (s[j] == '0' and s[j+1] == '1') or (s[j] == '1' and s[j+1] == '0'):
-                q = j
-                break
-        print(q+1, q+2, int(z>o))
-        for j in range(len(s)):
-            if j != q and j != q+1:
-                t += s[j]
-            elif j == q:
-                t += chr(int(z > o) + 48)
-        s = t
+    for i in range(m+1):
+        dp[0][i]=0
+    for i in range(n+1):
+        dp[i][0]= 0
+    for i in range(1, n+1):
+        for j in range(1, m+1):
+            if s[i-1] == t[j-1]:
+                dp[i][j] = 1 + dp[i-1][j-1]
 
-    print(1, len(s), 0)
+            else:
+                dp[i][j] = max( dp[i][j-1], dp[i-1][j])
+    print(dp[n][m])
+    
+lcs(input(), input())

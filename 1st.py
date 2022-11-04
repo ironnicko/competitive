@@ -11,7 +11,7 @@
 #         letter += 1
 #     if ok: final+="a"
 #     print(final)
-    
+
 # test_cases = int(input())
 # while test_cases > 0:
 #     test_cases -= 1
@@ -47,12 +47,12 @@
 #         j = leng - 1
 #         if compare and j in compare:
 #             return count
-            
+
 #         if number[leng] in searchingFor.keys():
 #             compare = searchingFor[number[leng]]
 #             if j in searchingFor[number[leng]]:
 #                 return leng-j
-                
+
 #         count += 1
 
 # testCase = int(input())
@@ -110,7 +110,7 @@
 #     if mod == 0:
 #         print(number)
 #         continue
-    
+
 #     if lastDigit + (7 - mod) > 9:
 #         print(number - mod)
 #     else:
@@ -154,7 +154,7 @@
 #             dc = original_attack
 #         else:
 #             return "NO"
-            
+
 # testCase = int(input())
 # while testCase>0:
 #     testCase -= 1
@@ -393,7 +393,7 @@
 # a = [int(i) for i in input().split()]
 # a = sorted(a)
 
-# diff = [] # make one array called difference 
+# diff = [] # make one array called difference
 
 # for i in range(1, n): # now we iterate through D "a" array starting from 1 through n
 #     d = a[i] - a[i-1] # find D difference by subtracting second element with the first element
@@ -426,7 +426,7 @@
 #     mini = a[0]
 #     pointer = a[0]
 #     for i in range(1, len(a)):
-#         num = 
+#         num =
 #     print(mini)
 # array = [20, -7, -3, 9, -4, 6, -9, 10]
 # mss(array)
@@ -555,3 +555,155 @@
 # for i in range(n):
 #     if primes[i] == 0:
 #         print(i)
+
+# n  = int(input())
+# arr = list(map(int, input().split()))
+# def solve(i, s1, s2):
+#     if i == n:
+#         return (abs(s1 - s2))
+#     return min(solve(i+1, s1 + arr[i], s2), solve(i+1, s1, s2 + arr[i]))
+# print(solve(0, 0, 0))
+
+# from collections import defaultdict
+
+
+# arr = list(map(int, input().split()))
+# n = len(arr)
+# count = defaultdict(int)
+# mx = float("-inf")
+# for i in range( n):
+#     score = 1
+#     elem = arr[0]
+#     temp = 1
+#     for j in range(n):
+#         if i == j: continue
+#         if elem > arr[j]:
+#             temp = 1
+#         else:
+#             score = max(score, temp)
+#             temp +=1
+#         elem = arr[j]
+#     count[score]+=1
+#     mx = max(score, mx)
+# print(count[mx])
+
+# for _ in range(int(input())):
+#     n = int(input())
+#     prices = list(map(int, input().split()))
+#     mn = prices[0]
+#     mx = float('-inf')
+#     for i in range(1, n):
+#         mx = max(mx, prices[i] - mn)
+#         mn = min(mn, prices[i])
+#     print(max(0, mx))
+
+
+# def bs(arr, high, low, key):
+#     mid = ((high - low)//2) + low
+#     if high < low:
+#         return -1
+#     if arr[mid] == key:
+#         return mid
+#     if arr[mid] > key:
+#         return bs(arr,  mid-1, low, key)
+#     elif arr[mid] < key:
+#         return bs(arr,  high, mid+1, key)
+
+# def lb(n, arr, high, low, key):
+#     mid = ((high - low)//2) + low
+#     if high < low:
+#         return low+1
+#     if arr[mid] >= key:
+#         return lb(n, arr,  mid-1, low, key)
+#     return lb(n, arr, high, mid+1, key)
+
+# def ub(arr, high, low, key):
+#     mid = ((high - low)//2) + low
+#     if high < low: return low
+#     if arr[mid] <= key:
+#         return ub(arr, high , mid+1, key)
+#     return ub(arr, mid - 1, low, key)
+
+# n = int(input())
+# arr = sorted(map(int, input().split()))
+
+# for _ in range(int(input())):
+#     l, r = map(int, input().split())
+#     L = -1
+#     R = n
+#     while R > L+1:
+#         mid = (L + R)//2
+#         if arr[mid] <= r:
+#             L = mid
+#         else:
+#             R = mid
+#     final = R + 1
+#     L = -1
+#     R = n
+#     while R > L + 1:
+#         mid = (L+R)//2
+#         if arr[mid] < l:
+#             L = mid
+#         else:
+#             R = mid
+#     print(final - (L +1) - 1)
+
+# def bs_sqrt(n, a,b):
+#     predicate = lambda x : n <= ((x//a) * (x//b))
+#     l = 0
+#     r = max(a, b) * n
+#     while r > l + 1:
+#         mid = l + ((r -l)//2)
+#         if predicate(mid):
+#             r = mid
+#         else:
+#             l = mid
+#     return r
+
+# w, h, n = map(int, input().split())
+
+# init = bs_sqrt(n, w, h)
+
+# print(init)
+
+# for _ in range(int(input())):
+
+#     n,q = map(int, input().split())
+#     a = [[0 for _ in range(1001)] for __ in range(1001)]
+#     prefix = [[0 for _ in range(1001)] for __ in range(1001)]
+#     for i in range(n):
+#         h,w = map(int, input().split())
+#         a[h][w] += h * w
+#     for i in range(1, 1001):
+#         for j in range(1, 1001):
+#             prefix[i][j] = prefix[i-1][j] + prefix[i][j-1] - prefix[i-1][j-1] + a[i][j]
+#     for i in range(q):
+#         hs, ws, hb, wb = map(int, input().split())
+#         print(prefix[hb-1][wb-1] - prefix[hb-1][ws] - prefix[hs][wb-1] + prefix[hs][ws])
+
+
+dp = [[0 for _ in range(101)] for __ in range(101)]
+
+
+def LCS(s, t, i, j):
+    for k in range(i):
+        dp[k][0] = 0
+    for k in range(j):
+        dp[0][k] = 0
+    for k in range(1, i+1):
+        for l in range(1, j+1):
+            if s[k-1] == t[l-1]:
+                dp[k][l] = 1 + dp[k-1][l-1]
+            else:
+                dp[k][l] = max(dp[k-1][l], dp[k][l-1])
+    return dp[i][j]
+
+
+def canYouMake(s: str, t: str) -> int:
+    n = len(s)
+    m = len(t)
+    return n+m - 2*LCS(s, t, n, m)
+
+
+for _ in range(int(input())):
+    print(canYouMake(input(), input()) - 1)
