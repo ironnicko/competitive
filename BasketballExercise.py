@@ -1,12 +1,23 @@
-from sys import stdin,stdout
-input = stdin.readline
-print = stdout.write
 
 n = int(input())
-main = (0, 0)
-n1 = [int(i) for i in input().rstrip().split()]
-n2 = [int(i) for i in input().rstrip().split()]
+
+players = list(zip(list(map(int, input().split())),
+               list(map(int, input().split()))))
+
+a, b = 0, 0
+def recurr(i, total, pick=-1):
+    if i < 0:
+        return total
+    if pick != -1:
+        take = recurr(i-1, total+players[i][1-pick], 1-pick)
+        notTake = recurr(i-1, total)
+        return max(take, notTake)
+    else:
+        take = max(recurr(i-1, total+players[i][0], 0), recurr(i-1, total+players[i][1], 1))
+        notTake = recurr(i-1, total)
+        return max(notTake, take)
+
+# print(recurr(len(players) - 1, 0))
 for i in range(n):
-    new = (max(main[0], main[1] + n1[i]), max(main[1], main[0] + n2[i]))
-    main = new
-print("%i"%(max(main)))
+    a,b = max(a, b + players[i][1]), max(b, a + players[i][0])
+print(max(a,b))

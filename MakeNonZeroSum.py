@@ -4,16 +4,21 @@ for _ in range(int(input())):
     n = int(input())
     n %= MOD
     array = list(map(int, input().split()))
-    if n & 1:
+    if (array.count(1) + array.count(-1)) & 1:
         print(-1)
     else:
-        counter = 0
-        for i in range(0, n-1,2 ):
-            counter += 1 + int(array[i] * array[i+1] == -1)
-        print(counter)
-        for i in range(0, n-1, 2):
-            if(array[i] * array[i+1] == -1):
-                print(f"{i+1} {i+1}")
-                print(f"{i+2} {i+2}")
+        s = sum(array)
+        for i in range(n):
+            if i == 0:
+                q = [[0, 0]]
+                continue
+            if abs(s) > abs(s - 2*array[i]) and q[-1][0] == i-1:
+                q[-1][1] = i
+                s -= 2*array[i]
             else:
-                print(f"{i+1} {i+2}")
+                q.append([i, i])
+
+        print(len(q))
+
+        for x, y in q:
+            print(x+1, y+1)
