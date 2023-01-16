@@ -1,2 +1,2 @@
 for _ in range(int(input())):
-    print((2**(int(input()))) - 1)
+    print((1<<(int(input()))) - 1)

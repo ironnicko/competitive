@@ -3,5 +3,5 @@ a.out
 VIT.c
 /*.dSYM
 1st.*
-inputs
-outputs
+inputs.txt
+outputs.txt

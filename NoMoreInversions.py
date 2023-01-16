@@ -1,6 +1,22 @@
-for _ in range(int(input())):
-    n, k = map(int, input().split())
-    a = 2*k-1-n
-    x = list(range(1, k+1))
-    x[a:] = x[a:][::-1]
-    print(*x)
+"""
+    Competitve Programming : Nikhil Ivannan
+"""
+
+def gcd(a, b):
+    if a == 0:return b
+    if b == 0: return a
+    if a == b: return a
+    if a > b:
+        return gcd(a-b, b)
+
+    return gcd(a, b-a)
+
+from collections import defaultdict
+
+n = int(input())
+
+company = defaultdict(int)
+company[1] = n
+for i, x in enumerate(map(int, input().split())):
+    if x != 1:
+        company[x] += 1

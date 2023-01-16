@@ -154,4 +154,6 @@ int main(){
     Derived ob2;
     ob1.print();
     ob2.print();
+    int a; cin >> a;
+    cout << a;
 }

@@ -28,6 +28,5 @@ int main(){
         }
         ans = min(ans, (temp > sum ? temp : sum));
         cout << ans << "\n";
-
     }
 }
