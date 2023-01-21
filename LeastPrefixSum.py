@@ -2,7 +2,6 @@ from heapq import heappop, heappush
 for _ in range(int(input())):
     n, m = map(int, input().split())
     arr = list(map(int, input().split()))
-
     hp = []
     run = 0
     final = 0
